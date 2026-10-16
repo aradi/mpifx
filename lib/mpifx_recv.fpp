@@ -71,7 +71,7 @@ contains
   !! \param msg  Msg to be received.
   !! \param source  Optional source process (default: MPI_ANY_SOURCE)
   !! \param tag  Optional message tag (default: MPI_ANY_TAG).
-  !! \param status  Optional status array as integer.
+  !! \param status  Optional status as type(mpi_status).
   !! \param error  Optional error handling flag.
   !!
   subroutine mpifx_recv_mpi_f08${SUFFIX}$(mycomm, msg, source, tag, status, error)
@@ -97,18 +97,18 @@ contains
 
   end subroutine mpifx_recv_mpi_f08${SUFFIX}$
 
-  !> Receives a message from a given process.
+  !> Receives a message from a given process (legacy interface with integer status array).
   !! \param mycomm  MPI descriptor.
   !! \param msg  Msg to be received.
   !! \param source  Optional source process (default: MPI_ANY_SOURCE)
   !! \param tag  Optional message tag (default: MPI_ANY_TAG).
-  !! \param status  Optional status array as type(mpi_status).
+  !! \param status  Status array as integer (must be present to select this variant).
   !! \param error  Optional error handling flag.
   !!
   subroutine mpifx_recv_mpi${SUFFIX}$(mycomm, msg, source, tag, status, error)
     type(mpifx_comm), intent(in) :: mycomm
     ${TYPE}$, intent(out) :: msg${RANKSUFFIX(RANK)}$
-    integer, intent(in) :: source, tag
+    integer, intent(in), optional :: source, tag
     integer, intent(out) :: status(MPI_STATUS_SIZE)
     integer, intent(out), optional :: error
 
